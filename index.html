@@ -1,0 +1,56 @@
+<html lang="ko">
+	<head>
+		<title>곰서버 요리 레시피북</title>
+		<script src="레시피/레시피.js"></script>
+		<script src="recipe_handler.js"></script>
+		<script src="tab_recipe_list.js"></script>
+		<script src="main.js"></script>
+		<link rel="stylesheet" href="main.css">
+		<link rel="stylesheet" href="tab.css">
+	</head>
+	<body>
+
+		<div class="container">
+			<div class="tabs">
+				<button class="tab-button active" data-tab="tab-recipe-list">레시피 목록</button>
+				<!-- <button class="tab-button" data-tab="tab-search-by-ingredient">재료로 검색</button> -->
+				<button class="tab-button" data-tab="tab-efficiency">효율 계산</button>
+			</div>
+			<div class="tab-content">
+				<div class="tab" id="tab-recipe-list">
+					<div class="panel-container">
+						<div class="left-panel">
+							
+							<table id="recipe-table">
+								<thead>
+									<tr>
+										<th style="width: 3rem">사진</th>
+										<th>이름</th>
+										<th style="width: 6rem">제작 방법</th>
+										<th>재료</th>
+										<th style="width: 8rem">판매 가격</th>
+									</tr>
+									<tr>
+										<th style="width: 3rem"></th>
+										<th><input id="recipe-table-search-name" type="text" onchange="tabRecipeList.renderRecipeTable()"/></th>
+										<th><input id="recipe-table-search-method" type="text" onchange="tabRecipeList.renderRecipeTable()" style="width: 100%"/></th>
+										<th><input id="recipe-table-search-ingredient" type="text" onchange="tabRecipeList.renderRecipeTable()"/></th>
+										<th><input id="recipe-table-search-price" type="text" onchange="tabRecipeList.renderRecipeTable()" style="width: 100%"/></th>
+									</tr>
+								</thead>
+								<tbody>
+			
+								</tbody>
+							</table>
+						</div>
+						<div class="right-panel">
+			
+						</div>
+					</div>
+				</div>
+				<!-- <div class="tab hidden" id="tab-search-by-ingredient">탭 2 내용</div> -->
+				<div class="tab hidden" id="tab-efficiency">탭 3 내용</div>
+			</div>
+		</div>
+	</body>
+</html>

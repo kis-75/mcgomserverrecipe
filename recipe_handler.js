@@ -7,9 +7,9 @@ class RecipeHandler {
     
         for (const [lowerItemName, lowerItemQuantity] of itemIngredients) {
             if (RECIPES.hasOwnProperty(lowerItemName)) {
-                result = result.concat(this.toLowerIngredients(lowerItemName, lowerItemQuantity / itemMultiplier))
+                result = result.concat(this.toLowerIngredients(lowerItemName, lowerItemQuantity / itemMultiplier * quantity))
             } else {
-                result.push([lowerItemName, lowerItemQuantity / itemMultiplier])
+                result.push([lowerItemName, lowerItemQuantity / itemMultiplier * quantity])
             }
         }
         return result
@@ -43,7 +43,7 @@ class RecipeHandler {
     }
 
     IngredientArrayToString(ingredientList) {
-        return ingredientList.reduce((acc, cur, idx) => { return `${acc ? `${acc}, ` : ""}${cur[0]} x ${cur[1]}`}, "")
+        return ingredientList.map((ingredientInfo) => `${QuantityToTranslatedText(ingredientInfo[0], ingredientInfo[1])}`).join(', ')
     }
 }
 const recipeHandler = new RecipeHandler()

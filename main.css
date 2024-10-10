@@ -49,3 +49,13 @@ th,td {
     background-color: #009999;
     overflow-y: auto;
 }
+
+#create-quantity-input-container {
+    display: flex;
+    margin: 0.5rem;
+}
+
+#create-quantity-input-container input {
+    margin: 0 0.5rem;
+    width: 3rem;
+}

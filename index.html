@@ -53,5 +53,35 @@
 				<div class="tab hidden" id="tab-efficiency">탭 3 내용</div>
 			</div>
 		</div>
+
+		<template id="recipe-detail-template">
+			<pre></pre>
+			<div id="create-quantity-input-container">
+				제작 개수: <input id="recipe-detail-create-quantity-set-input">셋 <input id="recipe-detail-create-quantity-input">개
+			</div>
+			<div id="recipe-detail-table-container"></div>
+		</template>
+
+		<template id="recipe-table-row-template">
+			<tr>
+				<td>		<!-- 사진 -->
+					<img class="item-image">
+				</td>
+				<td></td>	<!-- 이름 -->
+				<td></td>	<!-- 제작 방법 -->
+				<td></td>	<!-- 재료 -->
+				<td></td>	<!-- 판매 가격 -->
+			</tr>
+		</template>
+
+		<template id="recipe-detail-table-row-template">
+			<table class="recipe-detail-table">
+				<tr>
+					<td></td>	<!-- 이름 -->
+					<td></td>	<!-- 제작 방법 -->
+					<td></td>	<!-- 재료 -->
+				</tr>
+			</table>
+		</template>
 	</body>
 </html>

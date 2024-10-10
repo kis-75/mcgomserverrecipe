@@ -9,27 +9,20 @@ class TabRecipeList {
 
         let result = []   // : HTMLTableElement[]
 
-        const table = document.createElement("table")
-        const tableRow = document.createElement("tr")
-        const tableRowName = document.createElement("td")
-        const tableRowMethod = document.createElement("td")
-        const tableRowIngredient = document.createElement("td")
+        const template = document.getElementById('recipe-detail-table-row-template');
+        const clone = document.importNode(template.content, true);
+
+        const table = clone.children[0]
+        const tr = table.children[0]
+        const tds = tr.getElementsByTagName('td')
 
         const multiplier = itemInfo["배수"]
-        const quantityText = quantity != 1 ? ` x ${quantity}`: ''
         const ingredientList = itemInfo["재료"]
         const multipliedIngredientList = ingredientList.map(([name, ingredientQuantity]) => {return [name, ingredientQuantity / multiplier * quantity]})
 
-        table.className = "recipe-detail-table"
-        tableRowName.innerText = `${QuantityToTranslatedText(itemName, quantity)}`
-        tableRowMethod.innerText = itemInfo["제작 방법"]
-        tableRowIngredient.innerText = recipeHandler.IngredientArrayToString(multipliedIngredientList)
-
-
-        tableRow.appendChild(tableRowName)
-        tableRow.appendChild(tableRowMethod)
-        tableRow.appendChild(tableRowIngredient)    
-        table.appendChild(tableRow)
+        tds[0].innerText = `${QuantityToTranslatedText(itemName, quantity)}`
+        tds[1].innerText = itemInfo["제작 방법"]
+        tds[2].innerText = recipeHandler.IngredientArrayToString(multipliedIngredientList)
         table.style.marginLeft = `${recursionCount * 2}rem`
 
         result.push(table)
@@ -44,36 +37,25 @@ class TabRecipeList {
     }
 
     createRecipeTableRow(itemName, itemInfo) {  // : HTMLTrElement
-        const tableRow = document.createElement("tr")
-    
-        const tableRowImageContainer = document.createElement("td")
-        const tableRowImage = document.createElement("img")
-        const tableRowName = document.createElement("td")
-        const tableRowMethod = document.createElement("td")
-        const tableRowIngredient = document.createElement("td")
-        const tableRowPrice = document.createElement("td")
-    
+        const template = document.getElementById('recipe-table-row-template');
+        const clone = document.importNode(template.content, true);
+
+        const tr = clone.children[0]
+        const tds = tr.getElementsByTagName('td')
+
         const multiplierText = itemInfo["배수"] > 1 ? ` x ${itemInfo["배수"]}`: ''
-    
-        tableRowImage.src = `이미지/${itemName}.png`
-        tableRowImage.className = "item-image"
-        tableRowName.innerText = `${itemName}${multiplierText}`
-        tableRowMethod.innerText = itemInfo["제작 방법"]
-        tableRowIngredient.innerText = recipeHandler.IngredientArrayToString(itemInfo["재료"])
-        tableRowPrice.innerText = itemInfo["판매가"] || "-"
-    
-        tableRowImageContainer.appendChild(tableRowImage)
-        tableRow.appendChild(tableRowImageContainer)
-        tableRow.appendChild(tableRowName)
-        tableRow.appendChild(tableRowMethod)
-        tableRow.appendChild(tableRowIngredient)
-        tableRow.appendChild(tableRowPrice)
-    
-        tableRow.onclick = () => {
+
+        tds[0].getElementsByTagName('img')[0].src = `이미지/${itemName}.png`
+        tds[1].innerText = `${itemName}${multiplierText}`
+        tds[2].innerText = itemInfo["제작 방법"]
+        tds[3].innerText = recipeHandler.IngredientArrayToString(itemInfo["재료"])
+        tds[4].innerText = itemInfo["판매가"] || "-"
+
+        tr.onclick = () => {
             this.renderRecipeDetail(itemName)
         }
-    
-        return tableRow
+
+        return tr
     }
 
     renderRecipeTable() {
@@ -117,50 +99,31 @@ class TabRecipeList {
         const panelBody = document.querySelector("#tab-recipe-list .right-panel")
         panelBody.innerHTML = ""
 
+        const template = document.getElementById('recipe-detail-template');
+        const clone = document.importNode(template.content, true);
+
         const itemInfo = RECIPES[itemName]
 
         const ingredientsTxt = recipeHandler.IngredientArrayToString(itemInfo["재료"])
         const lowerIngredients = recipeHandler.coalesceIngredients(
             recipeHandler.toLowerIngredients(itemName, 1)
         )
-        const lowerIngredients1Set = lowerIngredients.map(([name, quantity]) => {return [name, quantity * 64]})
         const lowerIngredientsTxt = recipeHandler.IngredientArrayToString(lowerIngredients)
 
-        const descriptionPre = document.createElement("pre")
+        const descriptionPre = clone.children[0]
         descriptionPre.textContent = `이름: ${itemName}\n제작 방법: ${itemInfo["제작 방법"]}\n판매가: ${itemInfo["판매가"] || "없음"}\n재료: ${ingredientsTxt}\n기본 재료 환산(1개): ${lowerIngredientsTxt}`
-        panelBody.appendChild(descriptionPre)
 
-        // 제작 개수: input
-        const createQuantityInputContainer = document.createElement("div")
-        const createQuantityLabel = document.createElement("div")
-        const createQuantitySetInput = document.createElement("input")
-        const createQuantityInput = document.createElement("input")
+        const createQuantityInputContainer = clone.getElementById("create-quantity-input-container")
+        const createQuantityInputContainerInputs = createQuantityInputContainer.getElementsByTagName('input')
+        const createQuantitySetInput = createQuantityInputContainerInputs[0]
+        const createQuantityInput = createQuantityInputContainerInputs[1]
 
-        createQuantityInputContainer.style.display = "flex"
-        createQuantityInputContainer.style.margin = "0.5rem"
-        createQuantityLabel.textContent = "제작 개수: "
-        createQuantitySetInput.style.margin = "0 0.5rem"
-        createQuantitySetInput.style.width = "3rem"
-        createQuantitySetInput.id = "recipe-detail-create-quantity-set-input"
         createQuantitySetInput.value = Math.floor(this.createQuantity / 64)
         createQuantitySetInput.onchange = (e) => this.renderRecipeDetailTable(itemName)
-        createQuantityInput.style.margin = "0 0.5rem"
-        createQuantityInput.style.width = "3rem"
-        createQuantityInput.id = "recipe-detail-create-quantity-input"
         createQuantityInput.value = this.createQuantity % 64
         createQuantityInput.onchange = (e) => this.renderRecipeDetailTable(itemName)
 
-        createQuantityInputContainer.appendChild(createQuantityLabel)
-        createQuantityInputContainer.appendChild(createQuantitySetInput)
-        createQuantityInputContainer.appendChild(document.createTextNode("셋 "))
-        createQuantityInputContainer.appendChild(createQuantityInput)
-        createQuantityInputContainer.appendChild(document.createTextNode("개"))
-        panelBody.appendChild(createQuantityInputContainer)
-
-        // 레시피 세부 설명 테이블
-        const recipeDetailTableContainer = document.createElement("div")
-        recipeDetailTableContainer.id = "recipe-detail-table-container"
-        panelBody.appendChild(recipeDetailTableContainer)
+        panelBody.appendChild(clone)
 
         this.renderRecipeDetailTable(itemName)
     }

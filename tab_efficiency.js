@@ -43,8 +43,8 @@ class TabEfficiency {
         const requiredTime = recipeInfo['소요 시간'] || 30
         if (["냄비", "프라이팬", "튀김기"].includes(method)) {
             const cookingToolUseTime = ingredients.reduce((acc, cur) => acc + cur[1], 1) * this.CookingToolUseTime
-            timeInfo['조리 도구 사용 시간'] += cookingToolUseTime
-            timeInfo[method] += requiredTime + cookingToolUseTime
+            timeInfo['조리 도구 사용 시간'] += cookingToolUseTime * quantityMultiplier
+            timeInfo[method] += (requiredTime + cookingToolUseTime) * quantityMultiplier
         } else if (recipeInfo['소요 시간'] !== undefined){
             timeInfo['재료 수급 시간'] += requiredTime * quantityMultiplier
         }

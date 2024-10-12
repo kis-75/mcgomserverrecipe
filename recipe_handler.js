@@ -29,14 +29,16 @@ class RecipeHandler {
         return Object.entries(result)
     }
 
-    findAllRecipes(itemName) {
+    // deprecated
+    findFullRecipes(itemName) {
+        const itemInfo = RECIPES[itemName]
         const itemIngredients = RECIPES[itemName]["재료"]
         let result = []
         for (const [lowerItemName, lowerItemQuantity] of itemIngredients) {
             if (RECIPES.hasOwnProperty(lowerItemName)) {
-                result = result.concat(this.findAllRecipes(lowerItemName))
+                result = result.concat(this.findFullRecipes(lowerItemName))
             } else {
-                result.push(lowerItemName)
+                result.push(itemInfo)
             }
         }
         return result

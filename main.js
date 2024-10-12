@@ -20,6 +20,7 @@ function init() {
 function main() {
     init()
     tabRecipeList.renderRecipeTable()
+    tabEfficiency.renderEfficiencyTable()
 }
 
 

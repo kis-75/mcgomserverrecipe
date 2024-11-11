@@ -2,8 +2,8 @@ class TabEfficiency {
     CookingToolsPresets = {
         "마을": {
             "기구": {
-                "가스레인지": 8,
-                "튀김기": 8
+                "가스레인지": 32,
+                "튀김기": 1
             },
             "자리 이동시간": 0
         },
@@ -23,7 +23,7 @@ class TabEfficiency {
 
     calculateRecipeEstimatedTime(recipeName, cookingToolsInfo, quantity, timeInfo) { // recipeName: string[][], cookingToolsInfo: Object, quantity: Number, TimeInfo: Object, return: Number
         const recipeInfo = RECIPES[recipeName]
-        const method = recipeInfo['제작 방법']
+        const method = recipeInfo['제작방법']
         const ingredients = recipeInfo["재료"]
 
         if (timeInfo === undefined) {
@@ -40,20 +40,24 @@ class TabEfficiency {
         const quantityMultiplier = quantity / recipeInfo['배수']
 
         // 조리 도구 정보 처리
-        const requiredTime = recipeInfo['소요 시간'] || 30
+        const requiredTime = recipeInfo['소요시간'] || 30
         if (["냄비", "프라이팬", "튀김기"].includes(method)) {
             const cookingToolUseTime = ingredients.reduce((acc, cur) => acc + cur[1], 1) * this.CookingToolUseTime
             timeInfo['조리 도구 사용 시간'] += cookingToolUseTime * quantityMultiplier
             timeInfo[method] += (requiredTime + cookingToolUseTime) * quantityMultiplier
-        } else if (recipeInfo['소요 시간'] !== undefined){
+        } else if (recipeInfo['소요시간'] !== undefined){
             timeInfo['재료 수급 시간'] += requiredTime * quantityMultiplier
         }
 
         for (const [ingredientName, ingredientQuantity] of ingredients) {
             if (RECIPES.hasOwnProperty(ingredientName)) {
-                this.calculateRecipeEstimatedTime(ingredientName, cookingToolsInfo, ingredientQuantity * quantityMultiplier, timeInfo)
+                try {
+                    this.calculateRecipeEstimatedTime(ingredientName, cookingToolsInfo, ingredientQuantity * quantityMultiplier, timeInfo)
+                } catch {
+                    return
+                }                
             } else if (INGREDIENTS.hasOwnProperty(ingredientName)) {
-                const requiredTime = INGREDIENTS[ingredientName]['소요 시간'] || 0
+                const requiredTime = INGREDIENTS[ingredientName]['소요시간'] || 0
                 timeInfo['재료 수급 시간'] += requiredTime * ingredientQuantity * quantityMultiplier
             }
         }
@@ -157,10 +161,10 @@ class TabEfficiency {
         let totalCookingUseTime = 0     // 조리 도구 사용 시간(재료 넣기, 뒤집개, 집게)
 
         for (const recipeInfo of recipeList) {
-            const method = recipeInfo["제작 방법"]
+            const method = recipeInfo["제작방법"]
             const ingredients = recipeInfo["재료"]
             const defaultRequiredTime = ["냄비", "프라이팬", "튀김기"].includes(method) ? 30 : ["도마"].includes(method) ? 0.5 : 0
-            const requiredTime = recipeInfo["소요 시간"]
+            const requiredTime = recipeInfo["소요시간"]
 
             if (method === "냄비") {
                 totalCookingPotWaitTime += requiredTime

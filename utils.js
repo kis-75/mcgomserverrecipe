@@ -2,7 +2,7 @@
 function QuantityToTranslatedText(itemName, quantity) {
     const result = []
     if (["실버"].includes(itemName)) {
-        result.push(`${quantity}`)
+        result.push(`${Math.round(quantity * 1000) / 1000}`)
     } else {
         const setQuantity = Math.floor(quantity / 64)
         const quantityMod = quantity % 64
@@ -12,7 +12,7 @@ function QuantityToTranslatedText(itemName, quantity) {
             result.push(`${setQuantity}셋`)
         }
         if (quantityMod || !(setQuantity)) {
-            result.push(`${quantityMod}개`)
+            result.push(`${Math.round(quantityMod * 1000) / 1000}개`)
         }
     }
 

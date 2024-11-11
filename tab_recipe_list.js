@@ -21,7 +21,7 @@ class TabRecipeList {
         const multipliedIngredientList = ingredientList.map(([name, ingredientQuantity]) => {return [name, ingredientQuantity / multiplier * quantity]})
 
         tds[0].innerText = `${QuantityToTranslatedText(itemName, quantity)}`
-        tds[1].innerText = itemInfo["제작 방법"]
+        tds[1].innerText = itemInfo["제작방법"]
         tds[2].innerText = recipeHandler.IngredientArrayToString(multipliedIngredientList)
         table.style.marginLeft = `${recursionCount * 2}rem`
 
@@ -46,7 +46,7 @@ class TabRecipeList {
         const multiplierText = itemInfo["배수"] > 1 ? ` x ${itemInfo["배수"]}`: ''
 
         tds[0].innerText = `${itemName}${multiplierText}`
-        tds[1].innerText = itemInfo["제작 방법"]
+        tds[1].innerText = itemInfo["제작방법"]
         tds[2].innerText = recipeHandler.IngredientArrayToString(itemInfo["재료"])
         tds[3].innerText = itemInfo["판매가"] || ""
 
@@ -71,7 +71,7 @@ class TabRecipeList {
             if ( !( (searchName === "") || (itemName.includes(searchName)) ) ) {
                 is_valid = false
             }
-            if ( !( (searchMethod === "") || (itemInfo["제작 방법"].includes(searchMethod)) ) ) {
+            if ( !( (searchMethod === "") || (itemInfo["제작방법"].includes(searchMethod)) ) ) {
                 is_valid = false
             }
             if (searchIngredient !== "") {
@@ -116,7 +116,7 @@ class TabRecipeList {
         createQuantityInput.onchange = (e) => this.renderRecipeDetailTable(itemName, itemInfo["판매가"])
 
         const descriptionPre = clone.children[1]
-        descriptionPre.textContent = `이름: ${itemName}\n제작 방법: ${itemInfo["제작 방법"]}\n기본 재료: ${ingredientsTxt}\n\n`
+        descriptionPre.textContent = `이름: ${itemName}\n제작 방법: ${itemInfo["제작방법"]}\n기본 재료: ${ingredientsTxt}\n\n`
 
         panelBody.appendChild(clone);
         this.renderRecipeDetailTable(itemName, itemInfo["판매가"]);

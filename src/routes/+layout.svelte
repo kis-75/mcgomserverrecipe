@@ -1,5 +1,5 @@
 <script>
-    import { page } from '$app/stores';
+    import { page, navigating } from '$app/stores';
     import { base } from '$app/paths';
     import "../app.css";
     let { children } = $props();
@@ -10,7 +10,7 @@
         <div class="flex flex-row">
             <div role="tablist" class="tabs tabs-bordered flex-grow">
                 <a role="tab" class="tab {$page.url.pathname === `${base}/recipe_list` ? 'tab-active' : ''}"  href="{base}/recipe_list">레시피 목록</a>
-                <a role="tab" class="tab {$page.url.pathname === `${base}/efficiency` ? 'tab-active' : ''}" href="{base}/efficiency">효율 계산</a>
+                <a role="tab" class="tab {$page.url.pathname === `${base}/efficiency` ? 'tab-active' : ''}" href="/mcgomserverrecipe/efficiency">효율 계산</a>
             </div>
             
             <!-- 테마 선택용 버튼 -->
@@ -36,7 +36,13 @@
                 </svg>
             </label>
         </div>
+        {#if $navigating}
+            navigating to {$navigating?.to?.url?.pathname}
+        {/if}
+        <div>{base}</div>
     </nav>
+
+    
     
     {@render children()}
 </div>

@@ -1,4 +1,17 @@
-RECIPES = {
+/**
+ * @typedef {Object} Recipe
+ * @property {string} [제작방법] - 요리 제작방법
+ * @property {number} [배수] - 배수, 기본값은 1
+ * @property {Array<[string, number]>} [재료] - 재료 배열, ["재료명", 수량] 형식
+ * @property {number} [소요시간] - 소요시간 (초)
+ * @property {string} [판매가] - 판매가
+ */
+
+/** @type {Recipe} */
+export const RecipeExample = {}; // Recipe Type 정의용 객체
+
+/** @type {Object<string, Recipe>} */
+export const RECIPES = {
 	"소금": {"제작방법": "상점 구매", "배수": 1, "재료": [["실버", 2]]},
 	"기름": {"제작방법": "상점 구매", "배수": 1, "재료": [["실버", 2]]},
 	"요리용 물병": {"제작방법": "상점 구매", "배수": 1, "재료": [["실버", 2]]},

@@ -1,0 +1,12 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import url('../static/Gowun Dodum.css');
+
+pre {
+    @apply font-['Gowun_Dodum'];
+}
+
+* {
+    font-size: 1rem;
+}

@@ -1,38 +1,7 @@
-# sv
+# 마지막 레시피 업데이트 일자: 2024-11-17 00:26:00
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+레시피 관련 오류 발견시 디스코드나 인게임 채팅으로 제보 부탁드립니다.
 
-## Creating a project
+# 효율 계산 탭
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+레시피 별 조리 도구 소요 시간, 재료 수집 시간 등 데이터가 부족하여 해당 탭의 내용은 단순 참고용 정도로만 사용 부탁드립니다.

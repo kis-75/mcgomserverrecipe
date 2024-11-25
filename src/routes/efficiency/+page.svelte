@@ -2,7 +2,10 @@
 <script>
     import EfficiencyTable from "./components/EfficiencyTable.svelte";
     import RecipeDetail from "../recipe_list/components/RecipeDetail.svelte";
-    let selectedRecipeName = $state('빵 세트')
+    import EfficiencyPresetMenu from "./components/EfficiencyPresetMenu.svelte";
+    let selectedRecipeName = $state('')
+
+    let selectedRightPanelTabIndex = $state(0)
 </script>
 
 <div class="h-full w-full min-h-0">
@@ -10,13 +13,27 @@
         <div class="panel left-panel">
             <EfficiencyTable bind:selectedRecipeName={selectedRecipeName} />
         </div>
-        <div class="panel right-panel">
-            <div class="flex flex-col h-full">
-                <!-- TODO 다른걸로 바꿔야됨 -->
-                <div class="flex-1 h-full">waa</div>
-                <div class="flex-1 h-full overflow-y-auto">
-                    <RecipeDetail { selectedRecipeName }/>
+        <div class="panel right-panel ">
+            <div class="flex flex-col h-full text-white">
+                <div role="tablist" class="tabs tabs-bordered mb-4">
+                    <button role="tab" class="tab"
+                        class:tab-active={selectedRightPanelTabIndex === 0}
+                        onclick={() => selectedRightPanelTabIndex = 0}
+                    >계산 프리셋</button>
+                    <button role="tab" class="tab"
+                        class:tab-active={selectedRightPanelTabIndex === 1}
+                        onclick={() => selectedRightPanelTabIndex = 1}
+                    >레시피</button>
                 </div>
+                {#if selectedRightPanelTabIndex === 0}
+                    <div class="flex-1 h-full" style:display={selectedRightPanelTabIndex === 0 ? 'block' : 'none'}>
+                        <EfficiencyPresetMenu/>
+                    </div>
+                {:else if selectedRightPanelTabIndex === 1}
+                    <div class="flex-1 h-full overflow-y-auto" style:display={selectedRightPanelTabIndex === 1 ? 'block' : 'none'}>
+                        <RecipeDetail { selectedRecipeName }/>
+                    </div>
+                {/if}
             </div>
         </div>
     </div>

@@ -13,6 +13,9 @@
     /** @type {number | undefined} */
     let searchPricePerSec = $state()        // 판매가/s
 
+    // { 레시피명: [판매가, pps] },
+    // pps: price per second(판매가/s)
+    /** @type { { [x:string]: [string, string] } } */
     let processedRows = $derived.by(() => {
         // TODO 프리셋 선택 기능 구현 필요.
         const CookingToolsPresets = {
@@ -20,17 +23,8 @@
                 "기구": {
                     "가스레인지": 32,
                     "튀김기": 1
-                },
-                "자리 이동시간": 0
-            },
-            "요리소 3층": {
-                "기구": {
-                    "프라이팬": 5,
-                    "냄비": 5,
-                    "튀김기": 5,
-                },
-                "자리 이동시간": 2
-            },
+                }
+            }
         }
         const cookingToolsConfiguration = CookingToolsPresets['마을']['기구']
 
@@ -51,16 +45,9 @@
             const gatherTime = timeInfo['재료 수급 시간']
             let cookingToolsWaitTime = 0
 
-            if (cookingToolsConfiguration.hasOwnProperty("가스레인지")) {
-                const gasRangeQuantity = cookingToolsConfiguration["가스레인지"]
-                const fryerQuantity = cookingToolsConfiguration["튀김기"]
-                cookingToolsWaitTime = Math.max(gasRangeWaitTime / gasRangeQuantity, fryerWaitTime / fryerQuantity)
-            } else {
-                const potQuantity = cookingToolsConfiguration["가스레인지"]
-                const panQuantity = cookingToolsConfiguration["가스레인지"]
-                const fryerQuantity = cookingToolsConfiguration["튀김기"]
-                cookingToolsWaitTime = Math.max(potWaitTime / potQuantity, panWaitTime / panQuantity, fryerWaitTime / fryerQuantity)
-            }
+            const gasRangeQuantity = cookingToolsConfiguration["가스레인지"]
+            const fryerQuantity = cookingToolsConfiguration["튀김기"]
+            cookingToolsWaitTime = Math.max(gasRangeWaitTime / gasRangeQuantity, fryerWaitTime / fryerQuantity)
 
             const minimumRequiredTime = gatherTime + Math.max(cookingToolsUseTime, cookingToolsWaitTime)
             const salesPrice = recipeInfo['판매가'] || ''
@@ -114,34 +101,31 @@
         return result
     })
 
-
-
-
 </script>
 
-<div class="overflow-x-auto">
-    <table class="table table-zebra">
-        <!-- head -->
-        <thead>
-            <tr class="border-b-base-content">
-                <th class="font-extrabold text-center">번호</th>
-                <th><input type="text" placeholder="이름" bind:value={ searchName } class="input input-sm input-bordered w-full" /></th>
-                <th><input type="number" placeholder="판매가" bind:value={ searchPrice } class="input input-sm input-bordered w-24" /></th>
-                <th><input type="number" placeholder="판매가/s" bind:value={ searchPricePerSec } class="input input-sm input-bordered w-24" /></th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each Object.entries(filteredRecipeNames) as [recipeIndex, [recipeName, sps]]  (recipeName)}
-                {@const recipePrice=processedRows[recipeName][0]}
-                {@const recipePps=processedRows[recipeName][1]}
-                <EfficiencyTableRow
-                    onclick={() => {selectedRecipeName = recipeName}}
-                    recipeIndex={ Number(recipeIndex) } recipeName={ recipeName } recipePrice={recipePrice} recipePps={recipePps}
-                />
-            {/each}
-        </tbody>
-    </table>
-</div>
+
+<table class="table table-zebra">
+    <!-- head -->
+    <thead>
+        <tr class="border-b-base-content">
+            <th class="font-extrabold text-center">번호</th>
+            <th><input type="text" placeholder="이름" bind:value={ searchName } class="input input-sm input-bordered w-full" /></th>
+            <th><input type="number" placeholder="판매가" bind:value={ searchPrice } class="input input-sm input-bordered w-24" /></th>
+            <th><input type="number" placeholder="판매가/s" bind:value={ searchPricePerSec } class="input input-sm input-bordered w-24" /></th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each Object.entries(filteredRecipeNames) as [recipeIndex, [recipeName, sps]]  (recipeName)}
+            {@const recipePrice=processedRows[recipeName][0]}
+            {@const recipePps=processedRows[recipeName][1]}
+            <EfficiencyTableRow
+                onclick={() => {selectedRecipeName = recipeName}}
+                recipeIndex={ Number(recipeIndex) } recipeName={ recipeName } recipePrice={recipePrice} recipePps={recipePps}
+            />
+        {/each}
+    </tbody>
+</table>
+
 
 <style>
     /* Chrome, Safari, Edge, Opera */

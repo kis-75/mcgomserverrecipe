@@ -8,7 +8,7 @@
 <div class="flex flex-col h-full w-full font-['Gowun_Dodum']">
     <nav>
         <div class="flex flex-row">
-            <div role="tablist" class="tabs tabs-bordered flex-grow">
+            <div role="tablist" class="tabs tabs-bordered flex-grow pb-0.5">
                 <a role="tab" class="tab {$page.url.pathname === `${base}/recipe_list` ? 'tab-active' : ''}"  href="{base}/recipe_list">레시피 목록</a>
                 <a role="tab" class="tab {$page.url.pathname === `${base}/efficiency` ? 'tab-active' : ''}" href="{base}/efficiency">효율 계산</a>
             </div>
